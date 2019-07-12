@@ -33,32 +33,66 @@ const parseBody = async (req, res, next) => {
   next();
 };
 
+const notFound = (req, res) => {
+  res.statusCode = 404;
+  res.send();
+};
+
 const slapEvents = app => {
+  app.events = new Map();
+
   app.post("/events", (req, res, next) => {
     if (req.body.type === "url_verification") {
       res.send(req.body.challenge);
+      return;
+    } else if (req.body.type === "event_callback") {
+      const { type } = req.body.event;
+      const handler = app.events[req.body.event.type];
+
+      if (app.events.has(type)) {
+        const handler = app.events.get(type);
+        if (typeof handler === "function") handler(req, res, next);
+      } else {
+        console.log(`Unhandled event_callback of type ${type}`, req.body);
+        next();
+      }
+    } else {
+      console.log(`Unhandled event of type ${req.body.type}`);
+      next();
     }
+  });
+};
+
+const slaqMessage = app => {
+  app.events.set("message", (req, res) => {
+    console.log(req.body);
+    res.send({
+      text: `\`\`\`${JSON.stringify(req.body, null, 2)}\`\`\``
+    });
   });
 };
 
 const slap = ({ name, signingSecret, token } = {}) => {
   const app = express();
-  app.use(parseBody);
-
   const use = fn => fn(app);
-  use(slapEvents);
 
-  app.use((req, res) => {
-    res.statusCode = 404;
-    res.send();
-  });
+  const setup = () => {
+    app.use(parseBody);
+  };
 
-  //app.listen(3000, () => console.log("Jiraya ready"));
+  const beforeStart = () => {
+    app.use(notFound);
+  };
+
+  setup();
 
   return {
     app,
-    use: handler => {},
-    listen: app.listen.bind(app)
+    use,
+    listen: (...args) => {
+      beforeStart();
+      app.listen(...args);
+    }
   };
 };
 
@@ -67,5 +101,8 @@ const jiraya = slap({
   signingSecret: "076dcfbb66bf7e30f7a18a521d14194d",
   botUserToken: "xoxb-663287672934-649772412147-3wTEEfGRpXe55tH9oF0DVgfb"
 });
+
+jiraya.use(slapEvents);
+jiraya.use(slaqMessage);
 
 jiraya.listen(3000, () => console.log("Jiraya ready"));

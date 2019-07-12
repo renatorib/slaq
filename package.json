@@ -1,5 +1,8 @@
 {
   "private": true,
+  "scripts": {
+    "dev": "yarn workspace slaq dev"
+  },
   "workspaces": [
     "packages/*"
   ],
