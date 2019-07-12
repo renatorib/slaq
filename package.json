@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "author": "Renato Ribeiro <renatoribroman@gmail.com>",
+  "license": "MIT"
+}

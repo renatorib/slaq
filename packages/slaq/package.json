@@ -1,0 +1,10 @@
+{
+  "name": "slaq",
+  "version": "0.0.0",
+  "dependencies": {
+    "express": "^4.17.1",
+    "querystring": "^0.2.0",
+    "raw-body": "^2.4.1"
+  },
+  "devDependencies": {}
+}
