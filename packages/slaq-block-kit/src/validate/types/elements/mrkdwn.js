@@ -1,0 +1,4 @@
+/**
+ * !type: 'mrkdwn'
+ * !text: string
+ */
