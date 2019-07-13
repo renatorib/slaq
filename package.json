@@ -1,11 +1,13 @@
 {
   "private": true,
   "scripts": {
-    "dev": "yarn workspace slaq dev"
+    "dev": "yarn workspace slaq-app-test dev",
+    "debug-dev": "yarn workspace slaqa-app-test debug-dev"
   },
   "workspaces": [
     "packages/*"
   ],
   "author": "Renato Ribeiro <renatoribroman@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {}
 }

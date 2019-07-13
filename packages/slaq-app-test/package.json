@@ -1,0 +1,20 @@
+{
+  "name": "slaq-app-test",
+  "version": "0.0.0",
+  "main": "src/index.js",
+  "scripts": {
+    "dev": "DEBUG=slaq:* nodemon src/index.js",
+    "debug-dev": "DEBUG=* nodemon src/index.js"
+  },
+  "dependencies": {
+    "slaq": "^0.0.0",
+    "slaq-block-kit": "^0.0.0",
+    "slaq-commands": "^0.0.0",
+    "slaq-events": "^0.0.0",
+    "slaq-message": "^0.0.0",
+    "slaq-utils": "^0.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1"
+  }
+}
