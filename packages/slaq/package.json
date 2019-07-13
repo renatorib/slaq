@@ -7,9 +7,7 @@
     "express": "^4.17.1",
     "node-fetch": "^2.6.0",
     "querystring": "^0.2.0",
-    "raw-body": "^2.4.1",
-    "slaq-commands": "^0.0.0",
-    "slaq-events": "^0.0.0"
+    "raw-body": "^2.4.1"
   },
   "devDependencies": {}
 }

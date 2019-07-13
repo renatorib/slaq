@@ -1,8 +1,5 @@
 const express = require("express");
 
-const slaqEvents = require("slaq-events");
-const slaqCommands = require("slaq-commands");
-
 const parseRequestBody = require("./core/parseRequestBody");
 const parseResponseHelpers = require("./core/parseResponseHelpers");
 const createClient = require("./core/createClient");
