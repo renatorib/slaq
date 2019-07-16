@@ -3,7 +3,19 @@
   "scripts": {
     "dev": "yarn workspace slaq-app-test dev",
     "debug-dev": "yarn workspace slaqa-app-test debug-dev",
-    "lint": "eslint {packages,codemods}/**/*.js --format=codeframe"
+    "lint": "eslint {packages}/**/*.js --format=codeframe"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn lint",
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "{packages}/**/*.js": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "workspaces": [
     "packages/*"
@@ -14,6 +26,7 @@
     "eslint": "^6.0.1",
     "eslint-plugin-import": "^2.18.0",
     "husky": "^3.0.0",
-    "lint-staged": "^9.2.0"
+    "lint-staged": "^9.2.0",
+    "prettier": "^1.18.2"
   }
 }
