@@ -1,8 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "dev": "yarn workspace slaq-app-test dev",
-    "debug-dev": "yarn workspace slaqa-app-test debug-dev",
+    "dev": "yarn workspace --slaq-app-test dev",
+    "debug-dev": "yarn workspace --slaq-app-test debug-dev",
     "lint": "eslint packages/**/*.js --format=codeframe"
   },
   "husky": {
