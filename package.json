@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "yarn workspace slaq-app-test dev",
     "debug-dev": "yarn workspace slaqa-app-test debug-dev",
-    "lint": "eslint {packages}/**/*.js --format=codeframe"
+    "lint": "eslint packages/**/*.js --format=codeframe"
   },
   "husky": {
     "hooks": {
@@ -12,7 +12,7 @@
     }
   },
   "lint-staged": {
-    "{packages}/**/*.js": [
+    "packages/**/*.js": [
       "prettier --write",
       "git add"
     ]
