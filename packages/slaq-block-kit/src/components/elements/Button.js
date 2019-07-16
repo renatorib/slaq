@@ -14,7 +14,7 @@ const Confirm = require("../objects/Confirm");
 const ALLOWED_STYLES = ["primary", "danger"];
 
 const Button = props => {
-  if (typeof props === "text") {
+  if (typeof props === "string") {
     return {
       type: "button",
       text: MdText(props)

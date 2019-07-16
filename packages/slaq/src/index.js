@@ -4,7 +4,7 @@ const parseRequestBody = require("./core/parseRequestBody");
 const parseResponseHelpers = require("./core/parseResponseHelpers");
 const createClient = require("./core/createClient");
 
-const slaq = ({ name, signingSecret, token } = {}) => {
+const slaq = ({ token } = {}) => {
   const app = express();
   const client = createClient({ token });
   app.client = client;

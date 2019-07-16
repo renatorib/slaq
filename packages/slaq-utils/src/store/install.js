@@ -19,7 +19,7 @@ const installStoreHandlers = ({
       function check(v) {
         // Handle regex type
         if (v instanceof RegExp && !!regex) {
-          if (v.test(text)) def(fn);
+          if (v.test(compare)) def(fn);
         }
         // Handle string type
         if (typeof v === "string" && !!string) {
@@ -32,7 +32,7 @@ const installStoreHandlers = ({
         }
         // Handle array of any previous types
         if (Array.isArray(v) && !!array) {
-          k.forEach(value => check(value));
+          v.forEach(value => check(value));
         }
       }
 
