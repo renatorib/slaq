@@ -23,9 +23,10 @@
   "author": "Renato Ribeiro <renatoribroman@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "all-contributors-cli": "^6.7.0",
     "eslint": "^6.0.1",
     "eslint-plugin-import": "^2.18.0",
-    "husky": "^3.0.0",
+    "husky": "^2.7.0",
     "lint-staged": "^9.2.0",
     "prettier": "^1.18.2"
   }

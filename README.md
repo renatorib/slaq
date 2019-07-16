@@ -8,7 +8,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- prettier-ignore -->
 <table>
   <tr>
-    <td align="center"><a href="http://twitter.com/renatorib_"><img src="https://avatars2.githubusercontent.com/u/3277185?v=4" width="70px;" alt="Renato Ribeiro"/><br /><sub><b>Renato Ribeiro</b></sub></a><br /><a href="#blog-renatorib" title="Blogposts">📝</a> <a href="#maintenance-renatorib" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="http://twitter.com/renatorib_"><img src="https://avatars2.githubusercontent.com/u/3277185?v=4" width="70px;" alt="Renato Ribeiro"/><br /><sub><b>Renato Ribeiro</b></sub></a><br /></td>
   </tr>
 </table>
 
