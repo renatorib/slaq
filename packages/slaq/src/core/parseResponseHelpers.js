@@ -16,6 +16,7 @@ const parseResponseHelpers = app => {
     };
 
     const respond = message => {
+      console.log("respond", req.body);
       if (req.body.response_url) {
         return app.client.hook(req.body.response_url, {
           ...(typeof message === "string" ? { text: message } : { ...message })

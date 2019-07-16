@@ -1,3 +1,5 @@
+const MdText = require("../elements/MdText");
+
 /**
  * !type: 'section'
  * block_id: string
@@ -37,7 +39,7 @@ const ALLOWED_FIELDS = ["plain_text", "mrkdwn"];
 const Section = ({ id, text, accessory, fields }) => ({
   type: "section",
   block_id: id,
-  text,
+  text: typeof text === "string" ? MdText(text) : text,
   accessory:
     accessory && ALLOWED_ACCESSORY.includes(accessory.type)
       ? accessory
