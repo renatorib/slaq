@@ -1,0 +1,25 @@
+{
+  "projectName": "slaq",
+  "projectOwner": "renatorib",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 70,
+  "commit": true,
+  "commitConvention": "none",
+  "contributors": [
+    {
+      "login": "renatorib",
+      "name": "Renato Ribeiro",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/3277185?v=4",
+      "profile": "http://twitter.com/renatorib_",
+      "contributions": [
+        "blog",
+        "maintenance"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7
+}
