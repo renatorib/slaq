@@ -233,15 +233,18 @@ res.say({
 
 This project is still a wip, here are some features to be developed yet:
 
-- [x] Handle commands
-- [x] Handle events / event_callback
-  - [x] Handle message events
-- [ ] Handle interactive components / block actions
+- [x] Module to handle commands
+- [x] Module to handle events / event_callback
+  - [x] Module to handle message events easily
+- [ ] Module to handle interactive components (actions, dialogs, menus, etc)
+- [ ] Module to simplify OAuth configuration
 - [x] Block Kit components
   - [ ] Block Kit validator
   - [ ] JSX with htm?
 - [ ] Better docs
 - [ ] Tests
+- [ ] Put commands/events/action as built-in modules?
+- [ ] Unify all endpoints in a single one
 
 ## Contributors ✨
 
