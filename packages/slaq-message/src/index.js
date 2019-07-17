@@ -1,7 +1,9 @@
 const { matcherStore } = require("slaq-utils");
 
 const slaqMessage = app => {
-  app.message = matcherStore();
+  app.message = matcherStore({
+    defaultHandler: (req, res) => res.ack()
+  });
 
   app.event("message", (req, res) => {
     const { event } = req.body;

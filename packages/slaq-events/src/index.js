@@ -2,7 +2,9 @@ const { matcherStore } = require("slaq-utils");
 const debug = require("debug")("slaq:events");
 
 const slaqEvents = app => {
-  app.event = matcherStore();
+  app.event = matcherStore({
+    defaultHandler: (req, res) => res.ack()
+  });
 
   app.post("/events", (req, res, next) => {
     if (req.body.type === "url_verification") {
