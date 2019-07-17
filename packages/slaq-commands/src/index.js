@@ -1,7 +1,7 @@
-const { installStoreHandlers } = require("slaq-utils");
+const { matcherStore } = require("slaq-utils");
 
 const slaqCommands = app => {
-  app.command = installStoreHandlers({ string: "equals" });
+  app.command = matcherStore();
 
   app.post("/commands", (req, res, next) => {
     app.command.dispatch(req.body.command)(req, res, next);

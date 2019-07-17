@@ -1,1 +1,5 @@
-exports.installStoreHandlers = require("./store/install");
+const matcherStore = require("./matcher/store");
+
+module.exports = {
+  matcherStore
+};

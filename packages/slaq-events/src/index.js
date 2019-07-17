@@ -1,8 +1,8 @@
-const { installStoreHandlers } = require("slaq-utils");
+const { matcherStore } = require("slaq-utils");
 const debug = require("debug")("slaq:events");
 
 const slaqEvents = app => {
-  app.event = installStoreHandlers({ string: "equals" });
+  app.event = matcherStore();
 
   app.post("/events", (req, res, next) => {
     if (req.body.type === "url_verification") {

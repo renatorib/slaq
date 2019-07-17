@@ -1,4 +1,4 @@
-const Option = require("../PlainText");
+const Option = require("../elements/PlainText");
 
 /**
  * !label: elements.plain_text

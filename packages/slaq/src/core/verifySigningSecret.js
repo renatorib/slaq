@@ -33,7 +33,6 @@ const verifySigningSecret = app => {
 
     try {
       verify(body, secret, signature, timestamp);
-      console.log("Verified");
       next();
     } catch (e) {
       next(e);

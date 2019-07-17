@@ -3,7 +3,8 @@
   "scripts": {
     "dev": "yarn workspace --slaq-app-test dev",
     "debug-dev": "yarn workspace --slaq-app-test debug-dev",
-    "lint": "eslint packages/**/*.js --format=codeframe"
+    "lint": "eslint packages/**/*.js --format=codeframe",
+    "test": "jest packages"
   },
   "husky": {
     "hooks": {
@@ -27,6 +28,7 @@
     "eslint": "^6.0.1",
     "eslint-plugin-import": "^2.18.0",
     "husky": "^2.7.0",
+    "jest": "^24.8.0",
     "lint-staged": "^9.2.0",
     "prettier": "^1.18.2"
   }

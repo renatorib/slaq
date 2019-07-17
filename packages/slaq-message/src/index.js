@@ -1,7 +1,7 @@
-const { installStoreHandlers } = require("slaq-utils");
+const { matcherStore } = require("slaq-utils");
 
 const slaqMessage = app => {
-  app.message = installStoreHandlers();
+  app.message = matcherStore();
 
   app.event("message", (req, res) => {
     const { event } = req.body;
