@@ -1,42 +1,53 @@
 const express = require("express");
 
 const parseRequestBody = require("./core/parseRequestBody");
-const parseResponseHelpers = require("./core/parseResponseHelpers");
+const useSlackClient = require("./core/useSlackClient");
+const useResponseHelpers = require("./core/useResponseHelpers");
 const verifySigningSecret = require("./core/verifySigningSecret");
+const handleUrlVerification = require("./core/handleUrlVerification");
 
-const createClient = require("./client/createClient");
+const bootstrap = app => {
+  // Return 404 to unhandled middlewares
+  app.use((req, res, next) => {
+    // TODO: check if response already sent
+    res.sendStatus(404);
+    next();
+  });
+  // Return 500 to unhandled errors
+  // eslint-disable-next-line
+  app.use((err, req, res, next) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send(err.message);
+    }
+  });
+};
 
 const slaq = ({ name, token, signingSecret } = {}) => {
   const app = express();
+
+  /* Set slaq config */
   app.slaq = {
     name,
     token,
     signingSecret
   };
 
-  const client = createClient({ token });
-  app.client = client;
-
-  const use = fn => fn(app);
-  use(parseRequestBody);
-  use(parseResponseHelpers);
-  use(verifySigningSecret);
+  /* Load core functionality */
+  parseRequestBody(app);
+  useSlackClient(app);
+  useResponseHelpers(app);
+  verifySigningSecret(app);
+  handleUrlVerification(app);
 
   return {
+    // Exposes app instance
     app,
-    use,
-    client,
+    // Exposes entire app to hook functionality
+    use: fn => fn(app),
+    // Start app
     listen: (...args) => {
-      app.use((req, res) => {
-        res.sendStatus(404);
-      });
-      // eslint-disable-next-line
-      app.use((err, req, res, next) => {
-        if (err) {
-          console.error(err);
-          res.status(500).send(err.message);
-        }
-      });
+      bootstrap(app);
       app.listen(...args);
     }
   };

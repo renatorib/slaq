@@ -5,8 +5,12 @@ const slaqCommands = app => {
     defaultHandler: (req, res) => res.ack()
   });
 
-  app.post("/commands", (req, res, next) => {
-    app.command.dispatch(req.body.command)(req, res, next);
+  app.use((req, res, next) => {
+    if (req.type === "command") {
+      app.command.dispatch(req.body.command)(req, res, next);
+    } else {
+      next();
+    }
   });
 };
 

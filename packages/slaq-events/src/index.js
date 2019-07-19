@@ -6,18 +6,19 @@ const slaqEvents = app => {
     defaultHandler: (req, res) => res.ack()
   });
 
-  app.post("/events", (req, res, next) => {
-    if (req.body.type === "url_verification") {
-      debug(`Received 'url_verification' event`);
-      res.ack(req.body.challenge);
-    } else if (req.body.type === "event_callback") {
-      const { type } = req.body.event;
-      debug(`Received 'event_callback' event of type ${type}`);
-      debug(req.body);
-      app.event.dispatch(type)(req, res, next);
+  app.use((req, res, next) => {
+    if (req.type === "event") {
+      if (req.body.type === "event_callback") {
+        const { type } = req.body.event;
+        debug(`Received 'event_callback' event of type ${type}`);
+        debug(req.body);
+        app.event.dispatch(type)(req, res, next);
+      } else {
+        debug(`Received unhandled '${req.body.type}' event`);
+        res.ack();
+      }
     } else {
-      debug(`Received unhandled '${req.body.type}' event`);
-      res.ack();
+      next();
     }
   });
 };
