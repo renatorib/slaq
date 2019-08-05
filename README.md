@@ -244,7 +244,7 @@ This project is still a wip, here are some features to be developed yet:
 - [ ] Better docs
 - [ ] Tests
 - [ ] Put commands/events/action as built-in modules?
-- [ ] Unify all endpoints in a single one
+- [x] Unify all endpoints in a single one
 
 ## Contributors ✨
 

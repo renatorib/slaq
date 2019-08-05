@@ -3,11 +3,13 @@ const debug = require("debug")("slaq:events");
 
 const slaqEvents = app => {
   app.event = matcherStore({
-    defaultHandler: (req, res) => res.ack()
+    defaultHandler: () => {}
   });
 
   app.use((req, res, next) => {
     if (req.type === "event") {
+      res.ack(); // Always pre acknowledge events
+
       if (req.body.type === "event_callback") {
         const { type } = req.body.event;
         debug(`Received 'event_callback' event of type ${type}`);
@@ -15,7 +17,6 @@ const slaqEvents = app => {
         app.event.dispatch(type)(req, res, next);
       } else {
         debug(`Received unhandled '${req.body.type}' event`);
-        res.ack();
       }
     } else {
       next();
