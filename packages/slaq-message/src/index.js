@@ -9,7 +9,6 @@ const slaqMessage = app => {
     const { event } = req.body;
 
     if (event.bot_id || event.subtype) {
-      res.sendStatus(200);
       return;
     }
 
