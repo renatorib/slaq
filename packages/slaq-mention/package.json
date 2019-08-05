@@ -1,9 +1,8 @@
 {
   "name": "slaq-mention",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "main": "src/index.js",
   "dependencies": {
-    "slaq-utils": "^0.0.0"
-  },
-  "devDependencies": {}
+    "slaq-utils": "^0.1.0"
+  }
 }

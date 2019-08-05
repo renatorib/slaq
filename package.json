@@ -19,7 +19,8 @@
     ]
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "--apps/*"
   ],
   "author": "Renato Ribeiro <renatoribroman@gmail.com>",
   "license": "MIT",
