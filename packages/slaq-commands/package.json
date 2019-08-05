@@ -1,8 +1,8 @@
 {
   "name": "slaq-commands",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "src/index.js",
   "dependencies": {
-    "slaq-utils": "^0.1.0"
+    "slaq-utils": "^0.1.1"
   }
 }

@@ -1,9 +1,9 @@
 {
   "name": "slaq-events",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "src/index.js",
   "dependencies": {
     "debug": "^4.1.1",
-    "slaq-utils": "^0.1.0"
+    "slaq-utils": "^0.1.1"
   }
 }
