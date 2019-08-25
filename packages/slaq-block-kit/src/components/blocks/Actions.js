@@ -15,6 +15,7 @@
 const ALLOWED_ELEMENTS = [
   "static_select",
   "users_select",
+  "external_select",
   "conversations_select",
   "channels_select",
   "button",
@@ -23,7 +24,7 @@ const ALLOWED_ELEMENTS = [
 ];
 
 const Actions = ({ id, elements }) => ({
-  type: "divider",
+  type: "actions",
   block_id: id,
   elements: Array.isArray(elements)
     ? elements.filter(element => ALLOWED_ELEMENTS.includes(element.type))
