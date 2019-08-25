@@ -8,6 +8,7 @@ exports.Button = require("./elements/Button");
 exports.ChannelsSelect = require("./elements/ChannelsSelect");
 exports.ConversationsSelect = require("./elements/ConversationsSelect");
 exports.Datepicker = require("./elements/Datepicker");
+exports.ExternalSelect = require("./elements/ExternalSelect");
 exports.Image = require("./elements/Image");
 exports.MdText = require("./elements/MdText");
 exports.Mrkdwn = require("./elements/Mrkdwn");
