@@ -1,6 +1,11 @@
-# [WIP ALERT] Slaq
+# Slaq
 
 Lightweight lib to build Slack Apps, very modular.
+
+## :warning: WIP ALERT :warning:
+
+Slaq already works and is used in a small app in production today, _BUT_ it's still in the early stages of development.  
+While in version 0.X, it **may** have breaking changes even in minor updates, so if you use it in production, use it at your own risk.
 
 ## Getting Started
 
@@ -86,7 +91,6 @@ myapp.use(require("slaq-events"));
 ```js
 // Match string equality
 app.event("app_mention", (req, res) => {
-  res.ack(); // events must be replied by a web method but still need an acknowledgement
   res.say("Called me?"); // res.say() is a wrapper that uses chat.postMessage web method
 });
 
@@ -110,7 +114,6 @@ myapp.use(require("slaq-message"));
 
 ```js
 app.message(/(hi|hello)/i, (req, res) => {
-  res.ack();
   res.say("Hello!");
 });
 
@@ -121,10 +124,112 @@ app.message([...matchers], (req, res) => {});
 app.message((req, res) => {});
 ```
 
+#### slaq-actions
+
+PS: It supports 'block_actions' and 'message_actions'.  
+To handle 'dialog_submission' use `slaq-dialogs` module.
+
+```
+yarn add slaq-actions
+```
+
+```js
+myapp.use(require("slaq-actions"));
+```
+
+```js
+// previously
+res.say({
+  blocks: [
+    {
+      type: "actions",
+      elements: [
+        {
+          type: "button",
+          action_id: "say_hello"
+          text: {
+            type: "plain_text",
+            text: "Click me to say hello"
+          }
+        }
+      ]
+    }
+  ]
+});
+
+// matcher will match `action_id` of an action
+app.blockAction("say_hello", (req, res) => {
+  res.say("Hello!");
+});
+```
+
+```js
+// message actions must be registered at you app settings
+// in Interactive Components -> Actions
+// matcher will match registered `callback_id` of an action
+app.messageAction("say_hello", (req, res) => {
+  res.say("Hello!");
+});
+```
+
+#### slaq-options
+
+```
+yarn add slaq-options
+```
+
+```js
+myapp.use(require("slaq-options"));
+```
+
+```js
+app.options("external_todos", async (req, res) => {
+  const todos = fetch("http://service.com/todos");
+
+  res.ack({
+    options: todos.map(todo => ({
+      label: todo.title,
+      value: todo.id
+    }))
+  });
+});
+```
+
+#### slaq-dialogs
+
+```
+yarn add slaq-dialogs
+```
+
+```js
+myapp.use(require("slaq-dialogs"));
+```
+
+```js
+const dialog = {
+  title: "Complete todo",
+  elements: [
+    {
+      type: "select",
+      data_source: "external",
+      label: "Todos",
+      name: "external_todos" // will fetch options from registered "external_todo" options handler
+    }
+  ]
+};
+
+// dialog need an trigger_id to be used,
+app.dialog({ trigger_id: req.body.trigger_id, dialog }, (req, res) => {
+  console.log(req.body.submission);
+});
+```
+
 ### Example
 
 ```
+
 yarn add slaq-commands slaq-events slaq-message
+
 ```
 
 ```js
@@ -236,14 +341,15 @@ This project is still a wip, here are some features to be developed yet:
 - [x] Module to handle commands
 - [x] Module to handle events / event_callback
   - [x] Module to handle message events easily
-- [ ] Module to handle interactive components (actions, dialogs, menus, etc)
+- [x] Module to handle interactive components (actions, dialogs, menus, etc)
+- [x] Module to handle suggestions for external selects
 - [ ] Module to simplify OAuth configuration
 - [x] Block Kit components
   - [ ] Block Kit validator
   - [ ] JSX with htm?
 - [ ] Better docs
 - [ ] Tests
-- [ ] Put commands/events/action as built-in modules?
+- [ ] Put commands/events/actions as built-in modules?
 - [x] Unify all endpoints in a single one
 
 ## Contributors ✨
