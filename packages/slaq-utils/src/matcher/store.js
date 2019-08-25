@@ -3,7 +3,8 @@ const match = require("./match");
 
 const matcherStore = ({
   defaultHandler = () => {},
-  onDispatch = () => {}
+  onDispatch = () => {},
+  onSet = () => {}
 } = {}) => {
   const state = [];
 
@@ -24,11 +25,13 @@ const matcherStore = ({
       matcher = WILDCARD;
     }
 
+    onSet([matcher, handler]);
     return state.push([matcher, handler]);
   };
 
   return Object.assign(setter, {
-    dispatch
+    dispatch,
+    state
   });
 };
 
