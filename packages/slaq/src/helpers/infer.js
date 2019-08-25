@@ -11,21 +11,28 @@ const infer = req => {
           ? body.event.channel
           : body.event.item !== undefined
           ? body.event.item.channel
-          : undefined
+          : undefined,
+      user: body.event.user
     };
   }
 
   if (body.command !== undefined) {
     return {
       type: "command",
-      channel: body.channel_id
+      channel: body.channel_id,
+      user: body.user_id
     };
   }
 
-  if (body.name !== undefined || body.type === "block_suggestion") {
+  if (
+    body.name !== undefined ||
+    body.type === "block_suggestion" ||
+    body.type === "dialog_suggestion"
+  ) {
     return {
       type: "options",
-      channel: body.channel.id
+      channel: body.channel.id,
+      user: body.user.id
     };
   }
 
@@ -36,7 +43,8 @@ const infer = req => {
   ) {
     return {
       type: "action",
-      channel: body.channel.id
+      channel: body.channel.id,
+      user: body.user.id
     };
   }
 

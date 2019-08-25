@@ -31,10 +31,11 @@ const parseRequestBody = app => {
     req.body = getBody();
     req.stringBody = stringBody;
 
-    const { type, channel } = infer(req);
+    const { type, channel, user } = infer(req);
 
     req.type = type;
     req.channel = channel;
+    req.user = user;
 
     next();
   });

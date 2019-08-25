@@ -1,4 +1,13 @@
 const fetch = require("node-fetch");
+const debug = require("debug")("slaq");
+
+const debugErrorMiddleware = method => res => {
+  if (res.ok === false) {
+    debug(`Method ${method} result in an error`);
+    debug(res);
+  }
+  return res;
+};
 
 module.exports = ({ token }) => {
   const fetcher = async (url, options = {}) => {
@@ -27,7 +36,7 @@ module.exports = ({ token }) => {
 
     return fetcher(`https://slack.com/api/${method}`, {
       body: JSON.stringify(body)
-    });
+    }).then(debugErrorMiddleware(method));
   };
 
   const searchParams = params =>
@@ -43,13 +52,14 @@ module.exports = ({ token }) => {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded"
       }
-    });
+    }).then(debugErrorMiddleware(method));
   };
 
   const hook = (url, body) => fetcher(url, { body: JSON.stringify(body) });
 
   return {
     web,
-    hook
+    hook,
+    fetcher
   };
 };
