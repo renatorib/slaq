@@ -1,4 +1,4 @@
-const MdText = require("./MdText");
+const PlainText = require("./PlainText");
 const Confirm = require("../objects/Confirm");
 
 /**
@@ -17,7 +17,7 @@ const Button = props => {
   if (typeof props === "string") {
     return {
       type: "button",
-      text: MdText(props)
+      text: PlainText(props)
     };
   }
 
@@ -26,7 +26,7 @@ const Button = props => {
   return {
     type: "button",
     action_id: id,
-    text: typeof text === "string" ? MdText(text) : text,
+    text: typeof text === "string" ? PlainText(text) : text,
     confirm: typeof confirm === "string" ? Confirm(confirm) : confirm,
     url: url ? url.slice(0, 3000) : undefined,
     value: value ? value.slice(0, 75) : undefined,
