@@ -23,29 +23,40 @@ const bootstrap = app => {
   });
 };
 
-const slaq = ({ name, token, signingSecret } = {}) => {
-  const app = express();
+const createApp = ({ name, token, signingSecret, modules = [] } = {}) => {
+  const app = express.Router();
 
-  /* Set slaq config */
   app.slaq = {
     name,
     token,
     signingSecret
   };
 
-  /* Load core functionality */
+  /* Load all core functionality */
   parseRequestBody(app);
   useSlackClient(app);
   useResponseHelpers(app);
   verifySigningSecret(app);
   handleUrlVerification(app);
 
+  const use = fn => fn(app);
+  modules.forEach(use);
+
   return {
-    // Exposes app instance
     app,
-    // Exposes entire app to hook functionality
-    use: fn => fn(app),
-    // Start app
+    use
+  };
+};
+
+const createServer = (apps = {}) => {
+  const app = express();
+
+  Object.keys(apps).forEach(key => {
+    app.use(key, apps[key].app);
+  });
+
+  return {
+    app,
     listen: (...args) => {
       bootstrap(app);
       app.listen(...args);
@@ -53,4 +64,17 @@ const slaq = ({ name, token, signingSecret } = {}) => {
   };
 };
 
+// This needed due to a backward compatiblity
+const slaq = config => {
+  const app = createApp(config);
+  const server = createServer({ "/": app });
+
+  return {
+    ...app,
+    ...server
+  };
+};
+
+exports.createServer = createServer;
+exports.createApp = createApp;
 exports.slaq = slaq;
