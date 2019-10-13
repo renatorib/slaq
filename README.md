@@ -2,10 +2,25 @@
 
 Lightweight lib to build Slack Apps, very modular.
 
-## :warning: WIP ALERT :warning:
+## :warning: You can use it, but you shouldn't.
 
 Slaq already works and is used in a small app in production today, _BUT_ it's still in the early stages of development.  
 While in version 0.X, it **may** have breaking changes even in minor updates, so if you use it in production, use it at your own risk.
+
+## Summary
+
+- [Getting Started](#getting-started)
+- [Modules](#modules)
+  - [slaq-commands](#slaq-commands)
+  - [slaq-events](#slaq-events)
+  - [slaq-message](#slaq-message)
+  - [slaq-actions](#slaq-actions)
+  - [slaq-options](#slaq-options)
+  - [slaq-dialogs](#slaq-dialogs)
+- [Example](#example)
+- [Block Kit](#block-kit)
+- [Multiple Apps](#multiple-apps)
+- [Todo](#multiple-apps)
 
 ## Getting Started
 
@@ -16,9 +31,9 @@ yarn add slaq
 Create your new app:
 
 ```js
-const slaq = require("slaq");
+const { createApp, createServer } = require("slaq");
 
-const myapp = slaq({
+const myapp = createApp({
   token: "YOUR-BOT-USER-OAUTH-TOKEN",
   signingSecret: "YOUR-BOT-SIGNING-SECRET"
 });
@@ -27,7 +42,8 @@ myapp.use(app => {
   /* my functionality here */
 });
 
-myapp.listen(3000, () => console.log("MyBot is ready"));
+const server = createServer({ "/": myapp });
+server.listen(process.env.PORT || 3000, () => console.log("My app is ready"));
 ```
 
 This is the basic setup to run a slaq instance but this alone does nothing special except to prepare some core features like module interface and slack client instance.
@@ -35,14 +51,6 @@ This is the basic setup to run a slaq instance but this alone does nothing speci
 For some main slack features you will want to use some of these other module packages:
 
 ### Modules
-
-- [slaq-commands](#slaq-commands)
-- [slaq-events](#slaq-events)
-- [slaq-message](#slaq-message)
-- [slaq-actions](#slaq-actions)
-- [slaq-options](#slaq-options)
-- [slaq-dialogs](#slaq-dialogs)
-- [slaq-dialogs](#slaq-dialogs)
 
 #### slaq-commands
 
@@ -268,21 +276,22 @@ app.command("open", (req, res) => {
 
 ```
 
-yarn add slaq-commands slaq-events slaq-message
+yarn add slaq slaq-commands slaq-events slaq-message
 
 ```
 
 ```js
-const slaq = require("slaq");
+const { createApp, createServer } = require("slaq");
 
-const myapp = slaq({
+const myapp = createApp({
   token: "YOUR-BOT-USER-OAUTH-TOKEN",
-  signingSecret: "YOUR-BOT-SIGNING-SECRET"
+  signingSecret: "YOUR-BOT-SIGNING-SECRET",
+  modules: [
+    require("slaq-commands"), // Handle slash commands at POST /commands
+    require("slaq-events"), // Handle events at POST /events
+    require("slaq-message") // Handle message events
+  ]
 });
-
-myapp.use(require("slaq-commands")); // Handle slash commands at POST /commands
-myapp.use(require("slaq-events")); // Handle events at POST /events
-myapp.use(require("slaq-message")); // Handle message events
 
 myapp.use(app => {
   // my app functionality goes here.
@@ -310,7 +319,8 @@ myapp.use(app => {
   });
 });
 
-myapp.listen(process.env.PORT || 3000, () => console.log("MyBot is ready"));
+const server = createServer({ "/": myapp });
+server.listen(process.env.PORT || 3000, () => console.log("My app is ready"));
 ```
 
 > (!) Do not forget that you'll still need enable/update the endpoints and register the commands on your app's page at https://api.slack.com/apps
@@ -374,9 +384,40 @@ res.say({
 ]
 ```
 
-## [WIP]
+### Multiple Apps
 
-This project is still a wip, here are some features to be developed yet:
+```js
+const { createApp, createServer } = require("slaq");
+
+const sharedModules = [require("slaq-commands"), require("slaq-events")];
+
+const app1 = createApp({
+  token: "YOUR-BOT-USER-OAUTH-TOKEN-1",
+  signingSecret: "YOUR-BOT-SIGNING-SECRET-1",
+  modules: [...sharedModules]
+});
+
+app1.use(app => {
+  /* app1 functionality */
+});
+
+const app2 = createApp({
+  token: "YOUR-BOT-USER-OAUTH-TOKEN-2",
+  signingSecret: "YOUR-BOT-SIGNING-SECRET-2",
+  modules: [...sharedModules, require("slaq-message")]
+});
+
+app2.use(app => {
+  /* app2 functionality */
+});
+
+const server = createServer({ "/app1": app1, "/app2": app2 });
+server.listen(process.env.PORT || 3000, () => console.log("Apps are ready"));
+```
+
+## Todo
+
+This project is still a WIP, here are some features to be developed yet:
 
 - [x] Module to handle commands
 - [x] Module to handle events / event_callback
@@ -384,6 +425,7 @@ This project is still a wip, here are some features to be developed yet:
 - [x] Module to handle interactive components (actions, dialogs, menus, etc)
 - [x] Module to handle suggestions for external selects
 - [ ] Module to simplify OAuth configuration
+- [x] Handle multiple apps at the same server
 - [x] Block Kit components
   - [ ] Block Kit validator
   - [ ] JSX with htm?
@@ -391,6 +433,8 @@ This project is still a wip, here are some features to be developed yet:
 - [ ] Tests
 - [ ] Put commands/events/actions as built-in modules?
 - [x] Unify all endpoints in a single one
+
+And maybe others
 
 ## Contributors ✨
 
