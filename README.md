@@ -36,6 +36,14 @@ For some main slack features you will want to use some of these other module pac
 
 ### Modules
 
+- [slaq-commands](#slaq-commands)
+- [slaq-events](#slaq-events)
+- [slaq-message](#slaq-message)
+- [slaq-actions](#slaq-actions)
+- [slaq-options](#slaq-options)
+- [slaq-dialogs](#slaq-dialogs)
+- [slaq-dialogs](#slaq-dialogs)
+
 #### slaq-commands
 
 ```
@@ -103,6 +111,9 @@ app.event((req, res) => {});
 
 #### slaq-message
 
+Your bot need to be subscribed to `message.im` event.  
+You can configure it in your app config at: Event Subscriptions > Subscribe to Bot Events
+
 ```
 yarn add slaq-message
 ```
@@ -122,6 +133,26 @@ app.message("string includes", (req, res) => {});
 app.message(msg => msg === "fn", (req, res) => {});
 app.message([...matchers], (req, res) => {});
 app.message((req, res) => {});
+```
+
+#### slaq-mention
+
+Your bot need to be subscribed to `app_mention` event.  
+You can configure it in your app config at: Event Subscriptions > Subscribe to Bot Events
+
+```
+yarn add slaq-mention
+```
+
+```js
+myapp.use(require("slaq-events")); // mention depends on events
+myapp.use(require("slaq-mention"));
+```
+
+```js
+app.mention(/(hi|hello)/i, (req, res) => {
+  res.say("Hello!");
+});
 ```
 
 #### slaq-actions
@@ -206,21 +237,30 @@ myapp.use(require("slaq-dialogs"));
 ```
 
 ```js
-const dialog = {
-  title: "Complete todo",
-  elements: [
-    {
-      type: "select",
-      data_source: "external",
-      label: "Todos",
-      name: "external_todos" // will fetch options from registered "external_todo" options handler
-    }
-  ]
-};
-
-// dialog need an trigger_id to be used,
-app.dialog({ trigger_id: req.body.trigger_id, dialog }, (req, res) => {
+// register an callback with an unique name to handle form submission
+app.onDialogSubmission("unique-name", (req, res) => {
   console.log(req.body.submission);
+  res.say("Dialog successfully submitted :)");
+});
+
+// call openDialog after an action (You need a trigger_id to open a dialog)
+// in this case, we are using a slash command /open to get the trigger_id
+app.command("open", (req, res) => {
+  res.ack();
+  app.openDialog("unique-name", {
+    trigger_id: req.body.trigger_id,
+    dialog: {
+      title: "Complete todo",
+      elements: [
+        {
+          type: "select",
+          data_source: "external",
+          label: "Todos",
+          name: "external_todos" // will fetch options from registered "external_todo" options handler (see slaq-options)
+        }
+      ]
+    }
+  });
 });
 ```
 
