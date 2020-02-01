@@ -1,7 +1,11 @@
 {
   "name": "slaq-utils",
   "version": "0.3.0",
-  "main": "src/index.js",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "babel src --out-dir lib --extensions '.js,.ts' && tsc",
+    "watch": "watch -p 'src/**/*.{ts,js}' -c 'yarn build'"
+  },
   "dependencies": {
     "debug": "^4.1.1"
   }

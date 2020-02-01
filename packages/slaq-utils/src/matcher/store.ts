@@ -1,11 +1,19 @@
-const WILDCARD = require("./wildcard");
-const match = require("./match");
+import WILDCARD from "./wildcard";
+import match, { Matcher } from "./match";
+
+export type Handler = (...args: any[]) => any;
+
+type MatcherStoreProps = {
+  defaultHandler?: (...args: any[]) => any;
+  onDispatch?: ([matcher, handler]: [Matcher, Handler], [...any]) => any;
+  onSet?: ([matcher, handler]: [Matcher, Handler]) => any;
+};
 
 const matcherStore = ({
   defaultHandler = () => {},
   onDispatch = () => {},
   onSet = () => {}
-} = {}) => {
+}: MatcherStoreProps = {}) => {
   const state = [];
 
   const dispatch = payload => {
@@ -19,7 +27,7 @@ const matcherStore = ({
     };
   };
 
-  const setter = (matcher, handler) => {
+  const setter = (matcher: Matcher, handler) => {
     if (typeof matcher === "function" && !handler) {
       handler = matcher;
       matcher = WILDCARD;
@@ -35,4 +43,7 @@ const matcherStore = ({
   });
 };
 
+export default matcherStore;
+
+// backwards compat
 module.exports = matcherStore;
