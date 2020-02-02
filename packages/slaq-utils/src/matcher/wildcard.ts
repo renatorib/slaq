@@ -1,2 +1,2 @@
-const symbol = Symbol("*");
-export default symbol;
+export const WILDCARD = Symbol("*");
+export default WILDCARD;

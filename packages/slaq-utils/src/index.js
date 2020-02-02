@@ -1,7 +1,4 @@
-const matcherStore = require("./matcher/store");
-const parseArgs = require("./args/parseArgs");
+import { matcherStore } from "./matcher/store";
+import { parseArgs } from "./args/parseArgs";
 
-module.exports = {
-  matcherStore,
-  parseArgs
-};
+export { matcherStore, parseArgs };

@@ -1,5 +1,5 @@
 import WILDCARD from "./wildcard";
-import match, { Matcher } from "./match";
+import { match, Matcher } from "./match";
 
 export type Handler = (...args: any[]) => any;
 
@@ -9,41 +9,38 @@ type MatcherStoreProps = {
   onSet?: ([matcher, handler]: [Matcher, Handler]) => any;
 };
 
-const matcherStore = ({
+export const matcherStore = ({
   defaultHandler = () => {},
   onDispatch = () => {},
   onSet = () => {}
 }: MatcherStoreProps = {}) => {
-  const state = [];
+  const state: [Matcher, Handler][] = [];
 
-  const dispatch = payload => {
+  const dispatch = (payload: string) => {
     const defaults = [null, defaultHandler];
     const [matcher, handler] =
       state.find(([matcher]) => match(matcher, payload)) || defaults;
 
-    return (...args) => {
+    return (...args: any) => {
       onDispatch([matcher, handler], [...args]);
       handler(...args);
     };
   };
 
-  const setter = (matcher: Matcher, handler) => {
-    if (typeof matcher === "function" && !handler) {
-      handler = matcher;
-      matcher = WILDCARD;
-    }
+  function setter(handler: Handler): void;
+  function setter(matcher: Matcher, handler: Handler): void;
+  function setter(matcher: Matcher | Handler, handler?: Handler): void {
+    const isWildcard = typeof matcher === "function" && !handler;
 
-    onSet([matcher, handler]);
-    return state.push([matcher, handler]);
-  };
+    const _matcher = isWildcard ? WILDCARD : matcher;
+    const _handler = isWildcard ? (matcher as Handler) : handler;
+
+    onSet([_matcher, _handler]);
+    state.push([_matcher, _handler]);
+  }
 
   return Object.assign(setter, {
     dispatch,
     state
   });
 };
-
-export default matcherStore;
-
-// backwards compat
-module.exports = matcherStore;

@@ -1,4 +1,4 @@
-const matcherStore = require("./store");
+import { matcherStore } from "./store";
 
 describe("slaq-utils > matcher > store", () => {
   it("should dispatch matched handler", () => {

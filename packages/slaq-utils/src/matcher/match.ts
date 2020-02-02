@@ -9,7 +9,7 @@ const isFunction = (value: Matcher) => typeof value === "function";
 const isRegex = (value: Matcher) => value instanceof RegExp;
 const isArray = (value: Matcher) => Array.isArray(value);
 
-const match = (matcher: Matcher, payload: any): boolean => {
+export const match = (matcher: Matcher, payload: string): boolean => {
   if (isSymbol(matcher)) {
     return matcher === WILDCARD;
   }
@@ -34,8 +34,3 @@ const match = (matcher: Matcher, payload: any): boolean => {
 
   return false;
 };
-
-export default match;
-
-// backwards compat
-module.exports = match;
