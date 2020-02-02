@@ -4,10 +4,10 @@
     "bootstrap": "lerna bootstrap",
     "build": "lerna run --parallel build",
     "watch": "lerna run --parallel watch",
+    "test:unit": "lerna run --parallel test:unit",
     "dev": "yarn workspace --slaq-app-test dev",
     "debug-dev": "yarn workspace --slaq-app-test debug-dev",
-    "lint": "eslint packages/**/*.{js,ts} --format=codeframe",
-    "test": "jest packages"
+    "lint": "eslint packages/**/*.{js,ts} --format=codeframe"
   },
   "husky": {
     "hooks": {

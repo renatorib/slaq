@@ -4,8 +4,9 @@
   "main": "lib/index.js",
   "scripts": {
     "clean": "rm -rf ./lib",
-    "build": "yarn clean && babel src --out-dir lib --extensions '.js,.ts' && tsc",
-    "watch": "watch -p 'src/**/*.{ts,js}' -c 'yarn build'"
+    "build": "yarn clean && babel src -d lib -x '.js,.ts' --ignore '**/*.test.ts' && tsc",
+    "watch": "watch -p 'src/**/*.{ts,js}' -c 'yarn build'",
+    "test:unit": "jest"
   },
   "dependencies": {
     "debug": "^4.1.1"
