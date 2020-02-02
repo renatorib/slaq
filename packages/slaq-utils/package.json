@@ -3,7 +3,8 @@
   "version": "0.3.0",
   "main": "lib/index.js",
   "scripts": {
-    "build": "babel src --out-dir lib --extensions '.js,.ts' && tsc",
+    "clean": "rm -rf ./lib",
+    "build": "yarn clean && babel src --out-dir lib --extensions '.js,.ts' && tsc",
     "watch": "watch -p 'src/**/*.{ts,js}' -c 'yarn build'"
   },
   "dependencies": {
