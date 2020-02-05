@@ -1,12 +1,21 @@
-const rawBody = require("raw-body");
-const qs = require("querystring");
-const infer = require("../helpers/infer");
+declare global {
+  namespace Express {
+    interface Request {
+      type: string;
+      user: string;
+      channel?: string;
+    }
+  }
+}
 
-const parseRequestBody = app => {
+import rawBody from "raw-body";
+import qs from "querystring";
+import { infer } from "../helpers/infer";
+import { Module } from "../index";
+
+export const parseRequestBody: Module = app => {
   app.use(async (req, res, next) => {
-    const stringBody =
-      (req.rawBody && req.rawBody.toString()) ||
-      (await rawBody(req)).toString();
+    const stringBody = (await rawBody(req)).toString();
     const contentType = req.headers["content-type"];
 
     const getBody = () => {
@@ -40,5 +49,3 @@ const parseRequestBody = app => {
     next();
   });
 };
-
-module.exports = parseRequestBody;

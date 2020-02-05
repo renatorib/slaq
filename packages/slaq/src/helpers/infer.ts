@@ -1,6 +1,13 @@
 // Infer metadata like type and channel based on parsed requests
+import { Request } from "express";
 
-const infer = req => {
+export type Inferred = {
+  type?: "event" | "command" | "options" | "action";
+  channel?: string;
+  user?: string;
+};
+
+export const infer = (req: Request): Inferred => {
   const body = req.body || {};
 
   if (body.event !== undefined) {
@@ -50,5 +57,3 @@ const infer = req => {
 
   return {};
 };
-
-module.exports = infer;

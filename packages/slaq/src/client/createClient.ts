@@ -1,7 +1,9 @@
-const fetch = require("node-fetch");
-const debug = require("debug")("slaq");
+import fetch, { Response, BodyInit, HeadersInit } from "node-fetch";
+import _debug from "debug";
 
-const debugErrorMiddleware = method => res => {
+const debug = _debug("slaq");
+
+const debugErrorMiddleware = (method: string) => (res: Response) => {
   if (res.ok === false) {
     debug(`Method ${method} result in an error`);
     debug(res);
@@ -9,8 +11,22 @@ const debugErrorMiddleware = method => res => {
   return res;
 };
 
-module.exports = ({ token }) => {
-  const fetcher = async (url, options = {}) => {
+type FetcherOptions = {
+  headers?: HeadersInit;
+  body?: BodyInit;
+};
+
+export type Client = {
+  web: {
+    (method: string, body: Object): Promise<Object>;
+    form(method: string, body: Object): Promise<Object>;
+  };
+  hook: (url: string, body: Object) => Promise<Object>;
+  fetcher: (url: string, options?: FetcherOptions) => Promise<Object>;
+};
+
+export const createClient = ({ token }: { token: string }): Client => {
+  const fetcher = async (url: string, options: FetcherOptions = {}) => {
     const res = await fetch(url, {
       method: "POST",
       ...options,
@@ -30,7 +46,7 @@ module.exports = ({ token }) => {
     }
   };
 
-  const web = (method, body) => {
+  const web = (method: string, body: Object) => {
     if (!token)
       throw new Error("Must specify App token config to use slack Web API.");
 
@@ -39,14 +55,14 @@ module.exports = ({ token }) => {
     }).then(debugErrorMiddleware(method));
   };
 
-  const searchParams = params =>
+  const searchParams = (params: Object) =>
     Object.keys(params)
       .map(key => {
         return encodeURIComponent(key) + "=" + encodeURIComponent(params[key]);
       })
       .join("&");
 
-  web.form = (method, body) => {
+  web.form = (method: string, body: Object) => {
     return fetcher(`https://slack.com/api/${method}`, {
       body: searchParams(body),
       headers: {
@@ -55,7 +71,8 @@ module.exports = ({ token }) => {
     }).then(debugErrorMiddleware(method));
   };
 
-  const hook = (url, body) => fetcher(url, { body: JSON.stringify(body) });
+  const hook = (url: string, body: Object) =>
+    fetcher(url, { body: JSON.stringify(body) });
 
   return {
     web,

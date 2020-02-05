@@ -1,7 +1,13 @@
-const crypto = require("crypto");
-const tsscmp = require("tsscmp");
+import { Module } from "../index";
+import crypto from "crypto";
+import tsscmp from "tsscmp";
 
-const verify = (body, secret, signature, timestamp) => {
+const verify = (
+  body: string,
+  secret: string,
+  signature: string,
+  timestamp: number
+) => {
   const fiveMinutesAgo = Math.floor(Date.now() / 1000) - 60 * 5;
 
   if (timestamp < fiveMinutesAgo) {
@@ -23,13 +29,14 @@ const verify = (body, secret, signature, timestamp) => {
   return true;
 };
 
-const verifySigningSecret = app => {
+export const verifySigningSecret: Module = app => {
   const secret = app.slaq.signingSecret;
 
   app.use((req, res, next) => {
     const body = req.stringBody;
-    const signature = req.headers["x-slack-signature"];
-    const timestamp = parseInt(req.headers["x-slack-request-timestamp"]);
+    const signature = req.headers["x-slack-signature"] as string;
+    const requestTimestamp = req.headers["x-slack-request-timestamp"] as string;
+    const timestamp = parseInt(requestTimestamp);
 
     try {
       verify(body, secret, signature, timestamp);
@@ -39,5 +46,3 @@ const verifySigningSecret = app => {
     }
   });
 };
-
-module.exports = verifySigningSecret;
