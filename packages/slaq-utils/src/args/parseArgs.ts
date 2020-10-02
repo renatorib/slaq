@@ -1,4 +1,4 @@
-const parseArgs = (string, schema = {}) => {
+export const parseArgs = (string: string, schema = {}): Object => {
   return string.match(/[^:\s]+:[^:\s]+/gi).reduce((acc, matched) => {
     const [name, value] = matched.split(":");
     const parsedValue =
@@ -9,5 +9,3 @@ const parseArgs = (string, schema = {}) => {
     return { ...acc, [name]: parsedValue };
   }, {});
 };
-
-exports.parseArgs = parseArgs;

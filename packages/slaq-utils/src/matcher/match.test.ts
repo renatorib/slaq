@@ -1,5 +1,5 @@
-const WILDCARD = require("./wildcard");
-const match = require("./match");
+import WILDCARD from "./wildcard";
+import { match } from "./match";
 
 describe("slaq-utils > matcher > match", () => {
   it("should match wildcard", () => {

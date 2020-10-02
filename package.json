@@ -1,10 +1,13 @@
 {
   "private": true,
   "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "build": "lerna run --parallel build",
+    "watch": "lerna run --parallel watch",
+    "test:unit": "lerna run --parallel test:unit",
     "dev": "yarn workspace --slaq-app-test dev",
     "debug-dev": "yarn workspace --slaq-app-test debug-dev",
-    "lint": "eslint packages/**/*.js --format=codeframe",
-    "test": "jest packages"
+    "lint": "eslint packages/**/*.{js,ts} --format=codeframe"
   },
   "husky": {
     "hooks": {
@@ -25,14 +28,29 @@
   "author": "Renato Ribeiro <renatoribroman@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-react": "^7.8.3",
+    "@babel/preset-typescript": "^7.8.3",
+    "@types/jest": "^25.1.1",
+    "@types/node": "^13.7.0",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/parser": "^2.18.0",
     "all-contributors-cli": "^6.7.0",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "^11.0.0-beta.2",
+    "babel-loader": "^8.0.6",
     "eslint": "^6.0.1",
     "eslint-plugin-import": "^2.18.0",
     "husky": "^2.7.0",
     "jest": "^24.8.0",
     "lerna": "^3.16.4",
     "lint-staged": "^9.2.0",
-    "prettier": "^1.18.2"
+    "prettier": "^1.18.2",
+    "ts-jest": "^25.1.0",
+    "typescript": "^3.7.5",
+    "watch-cli": "^0.2.3"
   },
   "name": "slaq"
 }

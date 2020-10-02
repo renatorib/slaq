@@ -1,10 +1,19 @@
 {
-  "plugins": ["import"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["import", "@typescript-eslint"],
   "extends": ["eslint:recommended", "plugin:import/recommended"],
   "env": { "node": true, "es6": true, "jest": true },
   "rules": {
     "require-atomic-updates": 0,
-    "no-unused-vars": [2, { "ignoreRestSiblings": true }],
+    "no-unused-vars": 0,
+    "@typescript-eslint/no-unused-vars": [2, { "ignoreRestSiblings": true }],
     "import/no-unresolved": [2, { "commonjs": true }]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".ts"]
+      }
+    }
   }
 }

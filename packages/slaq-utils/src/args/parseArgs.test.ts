@@ -1,4 +1,4 @@
-const { parseArgs } = require("./parseArgs");
+import { parseArgs } from "./parseArgs";
 
 describe("slaq-utils > parseArgs > parseArgs", () => {
   it("should parse arguments from a string", () => {

@@ -1,7 +1,9 @@
-const { matcherStore } = require("slaq-utils");
-const debug = require("debug")("slaq:options");
+import { matcherStore } from "slaq-utils";
+import _debug from "debug";
 
-const slaqOptions = app => {
+const debug = _debug("slaq:options");
+
+const slaqOptions = (app: any) => {
   app.options = matcherStore({
     defaultHandler: () => {}
   });
@@ -17,4 +19,7 @@ const slaqOptions = app => {
   });
 };
 
+export default slaqOptions;
+
+// backwards compatibility
 module.exports = slaqOptions;
